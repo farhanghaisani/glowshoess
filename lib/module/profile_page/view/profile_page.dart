@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Dimas Arief W.',
+                  'Mitsal Abdul Salman',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
