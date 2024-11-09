@@ -4,8 +4,6 @@
 
 Jika Anda mengalami masalah dengan proyek Flutter dan ingin memulai ulang, ikuti langkah-langkah berikut:
 
-## Langkah-langkah:
-
 1. **Hapus direktori `android`**  
    Hapus folder `android` jika Anda ingin memulai ulang proyek Flutter dari awal.
 
