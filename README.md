@@ -1,7 +1,5 @@
 # glowshoess
 
-A new Flutter project.
-
 # Tips Menjalankan Flutter
 
 Jika Anda mengalami masalah dengan proyek Flutter dan ingin memulai ulang, ikuti langkah-langkah berikut:
@@ -16,8 +14,13 @@ Jika Anda mengalami masalah dengan proyek Flutter dan ingin memulai ulang, ikuti
 
 3. **Jalankan perintah di Terminal:**
    ```bash
-   flutter create .
+   flutter create
 
+4. **Jalankan perintah di Terminal:**
+   ```bash
+   flutter run
+
+A new Flutter project.
 
 ## Getting Started
 
