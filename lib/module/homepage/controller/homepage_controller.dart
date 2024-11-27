@@ -22,7 +22,7 @@ class HomePageController {
   ];
 
   String getUserName() {
-    return 'Dimas Arief W.'; // Return the username
+    return 'Farhan Arsyi Ghaisani Arief W.'; // Return the username
   }
 
   void onCategorySelected(String categoryName) {
