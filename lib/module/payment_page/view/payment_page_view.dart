@@ -22,7 +22,7 @@ class CheckoutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Date : 5-12-2024\nOrder : One Day Order\nCustomer Name :\nFarhan Arsyi G. Arsyi Ghaisani Arief W.',
+              'Date : 5-12-2024\nOrder : One Day Order\nCustomer Name :\nFarhan Arsyi G.',
               style: TextStyle(fontSize: 16.0),
             ),
             Text(
