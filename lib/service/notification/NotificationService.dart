@@ -6,16 +6,20 @@ import 'package:flutter/material.dart';
 
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   NotificationService() {
-    final initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+    final initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   Future<void> init() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission();
+    NotificationSettings settings =
+        await _firebaseMessaging.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print("Pengguna memberikan izin");
@@ -25,7 +29,8 @@ class NotificationService {
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (message.notification != null) {
-          print("Pesan diterima di latar depan: ${message.notification?.title}");
+          print(
+              "Pesan diterima di latar depan: ${message.notification?.title}");
           getX.Get.snackbar(
             message.notification?.title ?? "Notifikasi",
             message.notification?.body ?? "",

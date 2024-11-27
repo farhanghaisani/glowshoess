@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/core.dart';
+import 'package:glowshoess/core.dart';
 
 class TransactionSuccessPage extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        google() // Wajib untuk Firebase
+        google()
         mavenCentral()
     }
     dependencies {

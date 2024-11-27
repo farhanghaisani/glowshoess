@@ -7,7 +7,8 @@ class FCMService {
 
   void init() async {
     // Minta izin untuk notifikasi
-    NotificationSettings settings = await _firebaseMessaging.requestPermission();
+    NotificationSettings settings =
+        await _firebaseMessaging.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print("Pengguna memberikan izin");

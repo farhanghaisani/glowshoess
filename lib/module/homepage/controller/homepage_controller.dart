@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/model/category/category_model.dart';
+import 'package:glowshoess/model/category/category_model.dart';
 
 class HomePageController {
   // Sample data for categories

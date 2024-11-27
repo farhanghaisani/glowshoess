@@ -50,9 +50,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCu83xbvjST-O4_4aoAngWqulgMnOb16Vc',
     appId: '1:777558824880:web:7f973f9ea29a57f883a875',
     messagingSenderId: '777558824880',
-    projectId: 'klinik-shoes',
-    authDomain: 'klinik-shoes.firebaseapp.com',
-    storageBucket: 'klinik-shoes.appspot.com',
+    projectId: 'glowshoess',
+    authDomain: 'glowshoess.firebaseapp.com',
+    storageBucket: 'glowshoess.appspot.com',
     measurementId: 'G-GLE6HG3ZE6',
   );
 
@@ -60,17 +60,17 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyAo216qp71Ks-KGJvq4w08i-cZkxnqISck',
     appId: '1:777558824880:android:b828d8b03d2c25b883a875',
     messagingSenderId: '777558824880',
-    projectId: 'klinik-shoes',
-    storageBucket: 'klinik-shoes.appspot.com',
+    projectId: 'glowshoess',
+    storageBucket: 'glowshoess.appspot.com',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyCu83xbvjST-O4_4aoAngWqulgMnOb16Vc',
     appId: '1:777558824880:web:91da18fb5680fc0583a875',
     messagingSenderId: '777558824880',
-    projectId: 'klinik-shoes',
-    authDomain: 'klinik-shoes.firebaseapp.com',
-    storageBucket: 'klinik-shoes.appspot.com',
+    projectId: 'glowshoess',
+    authDomain: 'glowshoess.firebaseapp.com',
+    storageBucket: 'glowshoess.appspot.com',
     measurementId: 'G-66CS2K7GMY',
   );
 }

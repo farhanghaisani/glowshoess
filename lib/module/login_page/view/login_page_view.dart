@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/core.dart';
-import 'package:glowshoess.id/module/login_page/controller/login_page_controller.dart';
+import 'package:glowshoess/core.dart';
+import 'package:glowshoess/module/login_page/controller/login_page_controller.dart';
 import 'package:get/get.dart' as getX;
 
 class LoginPageView extends StatelessWidget {

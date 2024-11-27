@@ -52,7 +52,8 @@ class MapView extends GetView<local_map_controller.MapController> {
             context: Get.context!,
             builder: (context) => AlertDialog(
               title: const Text('Marker Info'),
-              content: Text('Location: ${latLng.latitude}, ${latLng.longitude}'),
+              content:
+                  Text('Location: ${latLng.latitude}, ${latLng.longitude}'),
               actions: <Widget>[
                 TextButton(
                   child: const Text('Close'),

@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.glowshoess"
-    compileSdk = flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -25,9 +25,10 @@ android {
     defaultConfig {
     applicationId = "com.example.kli"
     minSdk = 23
-    targetSdk = flutter.targetSdkVersion
+    targetSdkVersion 34
     versionCode = flutter.versionCode
     versionName = flutter.versionName
+    multiDexEnabled true
 }
 
 

@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getX;
-import 'package:glowshoess.id/core.dart';
-import 'package:glowshoess.id/service/notification/NotificationService.dart';
+import 'package:glowshoess/core.dart';
+import 'package:glowshoess/service/notification/NotificationService.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:glowshoess/module/camerapage/view/camerapage_view.dart';
 
-class SimpleCleaningView extends StatelessWidget {
-  // Definisikan instance NotificationService di sini
+class SimpleCleaningView extends StatefulWidget {
+  @override
+  _SimpleCleaningViewState createState() => _SimpleCleaningViewState();
+}
+
+class _SimpleCleaningViewState extends State<SimpleCleaningView> {
   final NotificationService _notificationService = NotificationService();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Define variables for quantity, date, and total price
+  String? _selectedPair = '1 pair';
+  String? _selectedDate = 'XX/XX/XXXX';
+  int _quantity = 1;
+  int _pricePerPair = 30000;
+  int _deliveryFee = 5000;
+
+  // Compute subtotal and total dynamically
+  int get _subtotal => _quantity * _pricePerPair;
+  int get _totalPrice => _subtotal + _deliveryFee;
 
   @override
   Widget build(BuildContext context) {
@@ -47,25 +65,19 @@ class SimpleCleaningView extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
                   image: DecorationImage(
-                    image:
-                        AssetImage('asset/simple_cleaning_logo.png'), // Gambar
+                    image: AssetImage('asset/simple_cleaning_logo.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               SizedBox(height: 16),
               Text(
-                "Jasa simple cleaning sepatu yang menyeluruh dengan fokus membersihkan bagian clean midsole dan upper, membuat sepatu Anda kembali bersih dan segar.",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
+                "Jasa simple cleaning sepatu yang menyeluruh...",
+                style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
               SizedBox(height: 20),
-              Text(
-                "Choose Pair",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+              Text("Choose Pair",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               SizedBox(height: 8),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -76,21 +88,24 @@ class SimpleCleaningView extends StatelessWidget {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     isExpanded: true,
-                    value: '1 pair',
+                    value: _selectedPair,
                     items: [
                       DropdownMenuItem(value: '1 pair', child: Text('1 pair')),
                       DropdownMenuItem(value: '2 pair', child: Text('2 pair')),
                       DropdownMenuItem(value: '3 pair', child: Text('3 pair')),
                     ],
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedPair = value;
+                        _quantity = int.parse(value!.split(' ')[0]);
+                      });
+                    },
                   ),
                 ),
               ),
               SizedBox(height: 20),
-              Text(
-                "Pick Date",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+              Text("Pick Date",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               SizedBox(height: 8),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -102,8 +117,32 @@ class SimpleCleaningView extends StatelessWidget {
                   children: [
                     Icon(Icons.calendar_today, size: 16, color: Colors.black54),
                     SizedBox(width: 8),
-                    Text('XX/XX/XXXX'),
+                    InkWell(
+                      onTap: _pickDate,
+                      child: Text(_selectedDate!),
+                    ),
                   ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Text("Tambahkan Foto atau Video Sepatu",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    getX.Get.to(() => CameraPageView());
+                  },
+                  icon: Icon(Icons.camera_alt, color: Colors.white),
+                  label: Text("Buka Kamera"),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -111,7 +150,7 @@ class SimpleCleaningView extends StatelessWidget {
                 children: [
                   Icon(Icons.local_shipping, color: Colors.black54),
                   SizedBox(width: 10),
-                  Text('Delivery fee: 5k'),
+                  Text('Delivery fee: Rp. 5,000'),
                   Spacer(),
                   TextButton(
                     onPressed: () {},
@@ -125,14 +164,14 @@ class SimpleCleaningView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Subtotal", style: TextStyle(color: Colors.black54)),
-                  Text("Rp.30.000"),
+                  Text("Rp. $_subtotal"),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Delivery fee", style: TextStyle(color: Colors.black54)),
-                  Text("Rp.5.000"),
+                  Text("Rp. $_deliveryFee"),
                 ],
               ),
               Divider(height: 30, thickness: 1),
@@ -144,7 +183,7 @@ class SimpleCleaningView extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   Text(
-                    "Rp.35.000",
+                    "Rp. $_totalPrice",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ],
@@ -153,7 +192,7 @@ class SimpleCleaningView extends StatelessWidget {
               Container(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: _saveOrderToFirebase,
                   icon: Icon(Icons.attach_money, color: Colors.white),
                   label: Text("Checkout"),
                   style: ElevatedButton.styleFrom(
@@ -172,11 +211,38 @@ class SimpleCleaningView extends StatelessWidget {
     );
   }
 
-  void _onBackPressed() {
-    // Kembali ke halaman sebelumnya
-    getX.Get.to(HomePageView(controller: HomePageController()));
+  // Date picker function
+  Future<void> _pickDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = "${picked.day}/${picked.month}/${picked.year}";
+      });
+    }
+  }
 
-    // Panggil fungsi untuk menampilkan notifikasi
+  // Save order to Firebase
+  Future<void> _saveOrderToFirebase() async {
+    try {
+      await _firestore.collection('orders').add({
+        'date': _selectedDate,
+        'jumlah': _quantity.toString(),
+        'total_harga': _totalPrice.toString(),
+      });
+      getX.Get.snackbar("Success", "Order saved successfully!");
+    } catch (e) {
+      getX.Get.snackbar("Error", "Failed to save order.");
+    }
+  }
+
+  // Back button function
+  void _onBackPressed() {
+    getX.Get.to(HomePageView(controller: HomePageController()));
     _notificationService.showDelayedNotification();
   }
 }

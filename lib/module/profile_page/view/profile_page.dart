@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getX;
-import 'package:glowshoess.id/core.dart';
-import 'package:glowshoess.id/module/cart_page/view/cart_page_view.dart';
-import 'package:glowshoess.id/module/history_page/view/history_page_view.dart';
-import 'package:glowshoess.id/module/webview/view/WebView_view.dart';
+import 'package:glowshoess/core.dart';
+import 'package:glowshoess/module/cart_page/view/cart_page_view.dart';
+import 'package:glowshoess/module/history_page/view/history_page_view.dart';
+import 'package:glowshoess/module/profile_page/view/edit_profile_view.dart';
+import 'package:glowshoess/module/profile_page/view/setting_view.dart';
+import 'package:glowshoess/module/webview/view/WebView_view.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -100,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Mitsal Abdul Salman',
+                  'Dimas Arief W.',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -145,7 +147,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: Text('Edit User Profile'),
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
-                          // Navigate to Edit User Profile
+                          getX.Get.to(() =>
+                              EditProfilePage()); // Navigasi ke halaman EditProfilePage
                         },
                       ),
                       Divider(height: 1, thickness: 1),
@@ -157,7 +160,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: Text('Settings'),
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
-                          // Navigate to Settings
+                          getX.Get.to(() =>
+                              SettingsPage()); // Navigasi ke halaman SettingsPage
                         },
                       ),
                       Divider(height: 1, thickness: 1),
@@ -171,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           // Navigate to WebView page for Instagram
                           getX.Get.to(WebViewPage(
                               url:
-                                  'https://www.instagram.com/_dmsaw/')); // Using GetX for navigation
+                                  'https://www.instagram.com/glowshoess__shoes?igsh=M3RvZjFmYmwxbmkz')); // Using GetX for navigation
                         },
                       ),
                     ],

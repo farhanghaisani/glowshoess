@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/module/payment_page/view/splash.dart';
+import 'package:glowshoess/module/payment_page/view/splash.dart';
 
 class CheckoutPage extends StatelessWidget {
   @override

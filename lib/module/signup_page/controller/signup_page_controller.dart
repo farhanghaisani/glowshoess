@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class SignupPageController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
+
   // Observables for username/email, password, and confirm password
   var username = ''.obs;
   var password = ''.obs;

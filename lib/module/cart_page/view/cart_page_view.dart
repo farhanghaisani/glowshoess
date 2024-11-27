@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/module/history_page/view/history_page_view.dart';
-import 'package:glowshoess.id/module/payment_page/view/payment_page_view.dart';
-import 'package:glowshoess.id/module/homepage/view/homepage_view.dart';
-import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
-// import 'package:klinik_shoes_project/module/history_page/view/history_page_view.dart'; // Import your HistoryPage
-// import 'package:klinik_shoes_project/module/profile_page/view/profile_page_view.dart'; // Import your ProfilePage
+import 'package:glowshoess/module/history_page/view/history_page_view.dart';
+import 'package:glowshoess/module/payment_page/view/payment_page_view.dart';
+import 'package:glowshoess/module/homepage/view/homepage_view.dart';
+import 'package:glowshoess/module/homepage/controller/homepage_controller.dart';
+// import 'package:glowshoess/module/history_page/view/history_page_view.dart'; // Import your HistoryPage
+// import 'package:glowshoess/module/profile_page/view/profile_page_view.dart'; // Import your ProfilePage
 
 class CartPage extends StatefulWidget {
   @override

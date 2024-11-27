@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:glowshoess.id/module/location/controller/map_controller.dart';
+import 'package:glowshoess/module/location/controller/map_controller.dart';
 
 class MapBinding extends Bindings {
   @override

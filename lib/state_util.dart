@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Get {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   static BuildContext get currentContext {
     final context = navigatorKey.currentState?.context;
     if (context == null) {
-      throw Exception('No Navigator context found! Ensure that the navigatorKey is properly set.');
+      throw Exception(
+          'No Navigator context found! Ensure that the navigatorKey is properly set.');
     }
     return context;
   }
@@ -39,7 +41,8 @@ class Get {
     return MediaQuery.of(currentContext).size.height; // Fixed to return height
   }
 
-  static ValueNotifier<ThemeData> mainTheme = ValueNotifier<ThemeData>(ThemeData());
+  static ValueNotifier<ThemeData> mainTheme =
+      ValueNotifier<ThemeData>(ThemeData());
 
   static void changeTheme(ThemeData theme) {
     mainTheme.value = theme;

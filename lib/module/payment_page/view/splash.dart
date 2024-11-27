@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess.id/module/payment_page/view/payment_berhasil_view.dart';
+import 'package:glowshoess/module/payment_page/view/payment_berhasil_view.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override

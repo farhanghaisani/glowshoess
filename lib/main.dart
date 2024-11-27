@@ -1,15 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:glowshoess.id/Routes/routes.dart';
-import 'package:glowshoess.id/core.dart';
-import 'package:glowshoess.id/service/notification/fcm_service.dart'; // Import FCMService
+import 'package:glowshoess/core.dart';
+// import 'package:glowshoess/module/speaker/view/speaker_notif_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Inisialisasi Firebase
+  await Firebase.initializeApp();
 
-  // Inisialisasi FCMService
   final fcmService = FCMService();
   fcmService.init();
 
@@ -20,12 +18,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Klinik Shoes Project',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      initialRoute: AppRoutes.getHomeRoute(),
-      getPages: AppRoutes.routes,
-    );
+        title: 'glowshoess',
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        // home: SpeakerPageView()
+        initialRoute: AppRoutes.getHomeRoute(),
+        getPages: AppRoutes.routes);
   }
 }
