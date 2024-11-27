@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Farhan Arsyi Ghaisani Arief W.',
+                  'Farhan Arsyi G. Arsyi Ghaisani Arief W.',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
