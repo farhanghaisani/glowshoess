@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowshoess/module/login_page/view/login_page_view.dart';
-import 'package:glowshoess/module/signup_page/view/signup_page_view.dart';
-import 'package:glowshoess/service/notification/NotificationService.dart'; // Pastikan import path yang benar
+import 'package:glowshoess.id/module/login_page/view/login_page_view.dart';
+import 'package:glowshoess.id/module/signup_page/view/signup_page_view.dart';
+import 'package:glowshoess.id/service/notification/NotificationService.dart'; // Pastikan import path yang benar
 
 class WelcomePage extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/module/cart_page/view/cart_page_view.dart';
-import 'package:glowshoess/module/homepage/view/homepage_view.dart';
-import 'package:glowshoess/module/homepage/controller/homepage_controller.dart';
-import 'package:glowshoess/module/profile_page/view/profile_page.dart';
+import 'package:glowshoess.id/module/cart_page/view/cart_page_view.dart';
+import 'package:glowshoess.id/module/homepage/view/homepage_view.dart';
+import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
+import 'package:glowshoess.id/module/profile_page/view/profile_view.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -20,10 +20,7 @@ class _HistoryPageState extends State<HistoryPage> {
     switch (index) {
       case 0:
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomePageView(controller: HomePageController())));
+            context, MaterialPageRoute(builder: (context) => HomePageView()));
         break;
       case 1:
         Navigator.pushReplacement(

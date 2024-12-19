@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.glowshoess"
+    namespace = "com.example.glowshoess.id"
     compileSdkVersion 34
     ndkVersion = flutter.ndkVersion
 

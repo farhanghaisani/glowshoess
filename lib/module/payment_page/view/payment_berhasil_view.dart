@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/core.dart';
+import 'package:glowshoess.id/core.dart';
 
 class TransactionSuccessPage extends StatelessWidget {
   @override
@@ -112,8 +112,7 @@ class TransactionSuccessPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () =>
-                      Get.to(HomePageView(controller: HomePageController())),
+                  onPressed: () => Get.to(HomePageView()),
                   // Aksi yang dilakukan ketika tombol Continue ditekan,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,

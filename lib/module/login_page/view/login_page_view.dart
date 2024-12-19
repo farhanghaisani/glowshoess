@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:glowshoess/core.dart';
-import 'package:glowshoess/module/login_page/controller/login_page_controller.dart';
+import 'package:glowshoess.id/core.dart';
+import 'package:glowshoess.id/module/login_page/controller/login_page_controller.dart';
+// import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
 import 'package:get/get.dart' as getX;
 
 class LoginPageView extends StatelessWidget {
@@ -81,9 +82,8 @@ class LoginPageView extends StatelessWidget {
                       User? user = await controller.loginWithEmailPassword();
                       if (user != null) {
                         // Navigasi ke homepage jika login berhasil
-                        getX.Get.offAll(() => HomePageView(
-                            controller:
-                                HomePageController())); // Menghapus semua halaman sebelumnya dan menuju ke Homepage
+                        getX.Get.offAll(() =>
+                            HomePageView()); // Menghapus semua halaman sebelumnya dan menuju ke Homepage
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Login successful!')),
                         );
@@ -130,7 +130,7 @@ class LoginPageView extends StatelessWidget {
                   SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
-                      // Navigate to signup page
+                      getX.Get.toNamed('/signup');
                     },
                     child: Text('Don’t have an account? Sign up here'),
                   ),

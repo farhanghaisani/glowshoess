@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getX;
-import 'package:glowshoess/core.dart';
-import 'package:glowshoess/service/notification/NotificationService.dart';
+import 'package:glowshoess.id/core.dart';
+import 'package:glowshoess.id/service/notification/NotificationService.dart';
 
 class ChangeColorView extends StatelessWidget {
   final NotificationService _notificationService = NotificationService();
@@ -172,7 +172,7 @@ class ChangeColorView extends StatelessWidget {
 
   void _onBackPressed() {
     // Kembali ke halaman sebelumnya
-    getX.Get.to(HomePageView(controller: HomePageController()));
+    getX.Get.to(HomePageView());
 
     // Panggil fungsi untuk menampilkan notifikasi
     _notificationService.showDelayedNotification();

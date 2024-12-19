@@ -1,14 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:glowshoess/Routes/routes.dart';
-import 'package:glowshoess/core.dart';
-import 'package:glowshoess/module/homepage/controller/homepage_controller.dart';
+import 'package:glowshoess.id/Routes/routes.dart';
+import 'package:glowshoess.id/core.dart';
+import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
 import 'package:get/get.dart' as getX;
-import 'package:glowshoess/module/location/view/map_view.dart';
+import 'package:glowshoess.id/module/location/view/map_view.dart';
+import 'package:glowshoess.id/model/profile_model.dart';
 
 class HomePageView extends StatefulWidget {
-  final HomePageController controller;
-
-  HomePageView({required this.controller});
+  final HomePageController controller = getX.Get.put(HomePageController());
 
   @override
   _HomePageViewState createState() => _HomePageViewState();
@@ -100,16 +101,19 @@ class _HomePageViewState extends State<HomePageView> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            // Username text
-            Text(
-              widget.controller
-                  .getUserName(), // Use widget.controller for access
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
+            // Username text - Using Obx for reactivity
+            getX.Obx(() {
+              final userName =
+                  widget.controller.userProfile.value?.name ?? 'No Name';
+              return Text(
+                userName,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              );
+            }),
             SizedBox(height: 4),
             GestureDetector(
               onTap: () {
@@ -143,7 +147,7 @@ class _HomePageViewState extends State<HomePageView> {
                       Row(
                         children: [
                           Text(
-                            'Jl. Begawan, No 2',
+                            'Jl. Bukit Cemara Tidar',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,
@@ -191,13 +195,19 @@ class _HomePageViewState extends State<HomePageView> {
               ],
             ),
             SizedBox(width: 14), // Space between icon and avatar
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage(
-                  'asset/profile-picture.png'), // Profile picture asset
-            ),
+            getX.Obx(() {
+              final photoPath =
+                  widget.controller.userProfile.value?.photoPath ?? '';
+              return CircleAvatar(
+                radius: 20,
+                backgroundImage: photoPath.isNotEmpty
+                    ? FileImage(File(photoPath))
+                    : AssetImage('assets/profile-placeholder.png')
+                        as ImageProvider,
+              );
+            }),
           ],
-        ),
+        )
       ],
     );
   }

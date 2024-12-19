@@ -1,121 +1,182 @@
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
 
 class EditProfileController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _storage = GetStorage();
+  final _connectivity = Connectivity();
+
+  var profileImage = Rx<File?>(null);
   var profile = {
-    'photoUrl': RxString(''),
-    'email': RxString(''),
-    'name': RxString(''),
-    'phone': RxString(''),
-    'address': RxString(''),
+    'email': ''.obs,
+    'name': ''.obs,
+    'phone': ''.obs,
+    'address': ''.obs,
+    'photoPath': ''.obs,
   };
 
-  final ImagePicker _picker = ImagePicker();
+  final String userId = "p5ZEvPdDOWYXnwUUKc5m"; // Replace with actual user ID
 
-  // Fungsi untuk memilih dan mengunggah gambar
-  Future<void> selectAndUploadProfileImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      File file = File(pickedFile.path);
-
-      try {
-        // Nama file unik menggunakan waktu saat ini
-        String fileName =
-            'profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
-        firebase_storage.Reference ref =
-            firebase_storage.FirebaseStorage.instance.ref().child(fileName);
-
-        // Mengunggah gambar ke Firebase Storage
-        await ref.putFile(file);
-
-        // Mendapatkan URL gambar yang diunggah
-        String downloadURL = await ref.getDownloadURL();
-
-        // Memperbarui URL gambar di profil
-        profile['photoUrl']?.value = downloadURL; // Safe access using ?.value
-
-        // Simpan URL foto di database pengguna
-        await updateUserProfilePhoto(downloadURL);
-      } catch (e) {
-        print("Error uploading image: $e");
-      }
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    _checkConnectivity();
+    _listenToConnectivity();
   }
 
-  // Fungsi untuk memuat profil dari database (termasuk foto URL)
-  void loadProfile() async {
-    // Misalnya, mendapatkan URL dari database Firestore atau Realtime Database
-    var photoUrl =
-        await getPhotoUrlFromDatabase(); // metode untuk memuat URL dari database
-    if (photoUrl.isNotEmpty) {
-      profile['photoUrl']?.value = photoUrl; // Safe access using ?.value
-    }
-  }
-
-  // Mengambil URL gambar dari Firebase Storage
-  Future<String> getPhotoUrlFromDatabase() async {
+  // Memuat data profil dari Firestore dan GetStorage
+  void loadProfile(
+    TextEditingController emailController,
+    TextEditingController nameController,
+    TextEditingController phoneController,
+    TextEditingController addressController,
+  ) async {
     try {
-      // Path ke gambar di Firebase Storage
-      String photoPath =
-          'profile_images/nature-landscape.jpg'; // Ganti dengan nama file yang sesuai
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        profile['email']?.value = userDoc['email'] ?? '';
+        profile['name']?.value = userDoc['name'] ?? '';
+        profile['phone']?.value = userDoc['phone'] ?? '';
+        profile['address']?.value = userDoc['address'] ?? '';
+        profile['photoPath']?.value = userDoc['photoPath'] ?? '';
 
-      // Ambil referensi file dari Firebase Storage
-      firebase_storage.Reference ref =
-          firebase_storage.FirebaseStorage.instance.ref().child(photoPath);
+        // Set nilai awal controller
+        emailController.text = profile['email']?.value ?? '';
+        nameController.text = profile['name']?.value ?? '';
+        phoneController.text = profile['phone']?.value ?? '';
+        addressController.text = profile['address']?.value ?? '';
 
-      // Ambil URL file tersebut
-      String downloadURL = await ref.getDownloadURL();
-
-      return downloadURL;
+        // Load local profile image
+        if (profile['photoPath']?.value.isNotEmpty ?? false) {
+          final localImage = File(profile['photoPath']?.value ?? '');
+          if (await localImage.exists()) {
+            profileImage.value = localImage;
+          }
+        }
+      }
     } catch (e) {
-      print("Error getting photo URL: $e");
-      return ''; // Kembalikan URL kosong jika terjadi error
+      Get.snackbar('Error', 'Failed to load profile: $e');
     }
   }
 
-  // Fungsi untuk menyimpan perubahan profil ke Firestore
+  // Menyimpan perubahan profil ke Firestore
   Future<void> saveProfile(
       String email, String name, String phone, String address) async {
     try {
-      var user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .update({
-          'email': email,
-          'name': name,
-          'phone': phone,
-          'address': address,
-          'photoUrl':
-              profile['photoUrl']?.value ?? '', // Safe access with null check
-        });
-      }
+      final data = {
+        'email': email,
+        'name': name,
+        'phone': phone,
+        'address': address,
+        'photoPath': profile['photoPath']?.value,
+      };
+
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .set(data, SetOptions(merge: true));
+
+      Get.snackbar('Success', 'Profile updated successfully');
+      _storage
+          .remove('profileData'); // Hapus data lokal setelah berhasil di-upload
+
+      // Perbarui data profil di HomePageController
+      Get.find<HomePageController>().updateProfileData();
     } catch (e) {
-      print("Error saving profile: $e");
+      // Jika gagal, simpan data ke GetStorage
+      _saveProfileLocally();
+      Get.snackbar('Error', 'Failed to update profile, saved locally');
     }
   }
 
-  // Memperbarui URL foto di Firestore
-  Future<void> updateUserProfilePhoto(String downloadURL) async {
-    try {
-      var user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        // Simpan URL foto di Firestore
-        await FirebaseFirestore.instance
+  // Menyimpan data secara lokal jika gagal upload ke Firestore
+  void _saveProfileLocally() {
+    final profileData = {
+      'email': profile['email']?.value,
+      'name': profile['name']?.value,
+      'phone': profile['phone']?.value,
+      'address': profile['address']?.value,
+      'photoPath': profile['photoPath']?.value,
+    };
+    _storage.write('profileData', profileData);
+    print('Profile data saved locally to GetStorage: $profileData');
+  }
+
+  // Memuat data profil dari GetStorage jika ada koneksi
+  Future<void> _uploadProfileIfOnline() async {
+    final storedProfile = _storage.read('profileData');
+    if (storedProfile != null) {
+      try {
+        await _firestore
             .collection('users')
-            .doc(user.uid)
-            .update({
-          'photoUrl': downloadURL,
-        });
+            .doc(userId)
+            .set(storedProfile, SetOptions(merge: true));
+        _storage.remove('profileData');
+        print(
+            'Profile data uploaded successfully to Firestore and removed from GetStorage.');
+      } catch (e) {
+        Get.snackbar('Error', 'Failed to upload profile data: $e');
       }
-    } catch (e) {
-      print("Error updating user profile photo: $e");
+    }
+  }
+
+  // Memeriksa status konektivitas
+  Future<void> _checkConnectivity() async {
+    final result = await _connectivity.checkConnectivity();
+    if (result != ConnectivityResult.none) {
+      await _uploadProfileIfOnline(); // Coba upload profil jika online
+    }
+  }
+
+  // Mendengarkan perubahan konektivitas
+  void _listenToConnectivity() {
+    _connectivity.onConnectivityChanged.listen((result) async {
+      if (result != ConnectivityResult.none) {
+        await _uploadProfileIfOnline(); // Sinkronisasi data saat online
+      }
+    });
+  }
+
+  // Memilih foto profil
+  void selectProfileImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final savedImage = await File(image.path)
+          .copy('${directory.path}/profile_$timestamp.jpg');
+
+      profileImage.value = savedImage;
+      profile['photoPath']?.value = savedImage.path;
+
+      Get.snackbar('Success', 'Image saved successfully');
+    } else {
+      Get.snackbar('Error', 'No image selected');
+    }
+  }
+
+  // Memuat foto profil
+  void loadProfileImage() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final files = directory.listSync(); // Get all files in the directory
+    final profileFile = files.firstWhere(
+      (file) => file.path.endsWith('profile.jpg'),
+      orElse: () => File(''),
+    );
+
+    if (profileFile is File && profileFile.existsSync()) {
+      profileImage.value =
+          profileFile; // Update the profile image if a file exists
     }
   }
 }

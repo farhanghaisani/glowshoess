@@ -1,12 +1,10 @@
-// lib/models/user_profile.dart
-
 class UserProfile {
-  String id;
-  String email;
-  String name;
-  String phone;
-  String address;
-  String? photoUrl; // Tambahkan photoUrl jika ada foto profil
+  final String id;
+  final String email;
+  final String name;
+  final String phone;
+  final String address;
+  final String photoPath;
 
   UserProfile({
     required this.id,
@@ -14,29 +12,28 @@ class UserProfile {
     required this.name,
     required this.phone,
     required this.address,
-    this.photoUrl,
+    this.photoPath = '',
   });
 
-  // Fungsi untuk memetakan data dari Firebase Firestore
-  factory UserProfile.fromMap(Map<String, dynamic> data, String id) {
+  factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
-      id: id,
-      email: data['email'] ?? '',
-      name: data['name'] ?? '',
-      phone: data['phone'] ?? '',
-      address: data['address'] ?? '',
-      photoUrl: data['photoUrl'],
+      id: map['id'] ?? '',
+      email: map['email'] ?? '',
+      name: map['name'] ?? '',
+      phone: map['phone'] ?? '',
+      address: map['address'] ?? '',
+      photoPath: map['photoPath'] ?? '',
     );
   }
 
-  // Fungsi untuk memetakan data kembali ke map untuk disimpan di Firestore
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'email': email,
       'name': name,
       'phone': phone,
       'address': address,
-      'photoUrl': photoUrl,
+      'photoPath': photoPath,
     };
   }
 }

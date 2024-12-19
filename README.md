@@ -1,22 +1,4 @@
-# glowshoess
-
-# Tips Menjalankan Flutter
-
-Jika Anda mengalami masalah dengan proyek Flutter dan ingin memulai ulang, ikuti langkah-langkah berikut:
-
-1. **Hapus direktori `android`**  
-   Hapus folder `android` jika Anda ingin memulai ulang proyek Flutter dari awal.
-
-2. **Hapus direktori `build`**  
-   Hapus folder `build` untuk menghapus file sementara yang mungkin mengganggu proses build.
-
-3. **Jalankan perintah di Terminal:**
-   ```bash
-   flutter create
-
-4. **Jalankan perintah di Terminal:**
-   ```bash
-   flutter run
+# glowshoess.id
 
 A new Flutter project.
 

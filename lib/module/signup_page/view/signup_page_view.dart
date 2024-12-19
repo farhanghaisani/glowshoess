@@ -152,7 +152,7 @@ class SignupPageView extends StatelessWidget {
   Widget _buildLoginButton() {
     return TextButton(
       onPressed: () {
-        Get.toNamed('/login'); // Example navigation using GetX routing
+        Get.toNamed('/login');
       },
       child: const Text('Already have an account? Login here'),
     );

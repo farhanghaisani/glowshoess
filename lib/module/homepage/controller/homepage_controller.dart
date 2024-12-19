@@ -1,7 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/model/category/category_model.dart';
+import 'package:glowshoess.id/model/category/category_model.dart';
+import 'package:get/get.dart';
+import 'package:glowshoess.id/module/profile_page/controller/edit_profile_controller.dart';
+import 'package:glowshoess.id/model/profile_model.dart';
 
-class HomePageController {
+class HomePageController extends GetxController {
+  final EditProfileController _editProfileController =
+      Get.put(EditProfileController());
+
+  // Gunakan Rx untuk profil pengguna
+  Rx<UserProfile?> userProfile = Rx<UserProfile?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Memuat profil pengguna awal
+    _loadUserProfile();
+  }
+
+  void _loadUserProfile() {
+    userProfile.value = UserProfile(
+      id: _editProfileController.profile['id']?.value ?? '',
+      email: _editProfileController.profile['email']?.value ?? '',
+      name: _editProfileController.profile['name']?.value ?? '',
+      phone: _editProfileController.profile['phone']?.value ?? '',
+      address: _editProfileController.profile['address']?.value ?? '',
+      photoPath: _editProfileController.profile['photoPath']?.value ?? '',
+    );
+  }
+
+  void updateProfileData() {
+    _loadUserProfile();
+  }
+
   // Sample data for categories
   final List<Category> categories = [
     Category(name: 'Simple Cleaning', iconPath: 'assets/simple_cleaning.png'),
@@ -16,14 +47,10 @@ class HomePageController {
 
   // Sample data for banners
   final List<String> banners = [
-    'asset/Banner_1.png',
-    'asset/Banner_2.png',
+    'asset/banner1.png',
+    'asset/banner2.png',
     // Add more banners as needed
-  ];
-
-  String getUserName() {
-    return 'Farhan Arsyi G.'; // Return the username
-  }
+  ]; // Default empty photo path
 
   void onCategorySelected(String categoryName) {
     // Handle category selection logic here

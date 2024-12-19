@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/model/welcome_page_model/welcome_page_model.dart';
+import 'package:glowshoess.id/model/welcome_page_model/welcome_page_model.dart';
 
 class WelcomeController {
   final WelcomeModel model = WelcomeModel();

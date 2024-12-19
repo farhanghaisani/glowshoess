@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:glowshoess/module/camerapage/controller/camerapage_controller.dart';
+import 'package:glowshoess.id/module/camerapage/controller/camerapage_controller.dart';
 
 class CameraPageView extends StatelessWidget {
   final CameraPageController controller = Get.put(CameraPageController());

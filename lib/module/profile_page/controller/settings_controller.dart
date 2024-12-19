@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:glowshoess/model/speaker/audio_notification_model.dart';
+import 'package:glowshoess.id/model/speaker/audio_notification_model.dart';
 
 class SettingsController {
   final AudioNotificationModel audioNotificationModel;

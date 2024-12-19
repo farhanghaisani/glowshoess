@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/core.dart';
+import 'package:glowshoess.id/core.dart';
 import '../view/landing_page_view.dart';
 
 class LandingPageController extends State<LandingPageView> {

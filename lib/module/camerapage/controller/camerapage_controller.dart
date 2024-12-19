@@ -5,7 +5,7 @@ import 'package:video_player/video_player.dart';
 
 class CameraPageController extends GetxController {
   final ImagePicker _picker = ImagePicker();
-  
+
   var imagePath = ''.obs; // Path untuk gambar yang diambil
   var videoPath = ''.obs; // Path untuk video yang diambil
   var isImageLoading = false.obs; // Status loading saat mengambil gambar
@@ -13,7 +13,8 @@ class CameraPageController extends GetxController {
   var isVideoPlaying = false.obs; // Status pemutaran video
   var isVideoInitialized = false.obs; // Status inisialisasi video
 
-  var videoPlayerController = Rx<VideoPlayerController?>(null); // Controller untuk video player
+  var videoPlayerController =
+      Rx<VideoPlayerController?>(null); // Controller untuk video player
 
   @override
   void onInit() {
@@ -39,7 +40,8 @@ class CameraPageController extends GetxController {
   Future<void> capturePhoto() async {
     try {
       isImageLoading.value = true;
-      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? pickedImage =
+          await _picker.pickImage(source: ImageSource.camera);
       if (pickedImage != null) {
         imagePath.value = pickedImage.path;
       } else {
@@ -56,7 +58,8 @@ class CameraPageController extends GetxController {
   Future<void> captureVideo() async {
     try {
       isVideoLoading.value = true;
-      final XFile? pickedVideo = await _picker.pickVideo(source: ImageSource.camera);
+      final XFile? pickedVideo =
+          await _picker.pickVideo(source: ImageSource.camera);
       if (pickedVideo != null) {
         videoPath.value = pickedVideo.path;
         print("Video path: ${videoPath.value}");
@@ -80,7 +83,8 @@ class CameraPageController extends GetxController {
 
   // Fungsi untuk memutar video
   void playVideo() {
-    if (videoPlayerController.value != null && videoPlayerController.value!.value.isInitialized) {
+    if (videoPlayerController.value != null &&
+        videoPlayerController.value!.value.isInitialized) {
       videoPlayerController.value!.play();
       isVideoPlaying.value = true;
     }
@@ -88,7 +92,8 @@ class CameraPageController extends GetxController {
 
   // Fungsi untuk menjeda video
   void pauseVideo() {
-    if (videoPlayerController.value != null && videoPlayerController.value!.value.isInitialized) {
+    if (videoPlayerController.value != null &&
+        videoPlayerController.value!.value.isInitialized) {
       videoPlayerController.value!.pause();
       isVideoPlaying.value = false;
     }
@@ -96,7 +101,8 @@ class CameraPageController extends GetxController {
 
   // Fungsi untuk toggle play/pause video
   void toggleVideoPlayPause() {
-    if (videoPlayerController.value != null && videoPlayerController.value!.value.isInitialized) {
+    if (videoPlayerController.value != null &&
+        videoPlayerController.value!.value.isInitialized) {
       if (videoPlayerController.value!.value.isPlaying) {
         pauseVideo();
       } else {

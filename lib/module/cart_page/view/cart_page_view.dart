@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:glowshoess/module/history_page/view/history_page_view.dart';
-import 'package:glowshoess/module/payment_page/view/payment_page_view.dart';
-import 'package:glowshoess/module/homepage/view/homepage_view.dart';
-import 'package:glowshoess/module/homepage/controller/homepage_controller.dart';
-// import 'package:glowshoess/module/history_page/view/history_page_view.dart'; // Import your HistoryPage
-// import 'package:glowshoess/module/profile_page/view/profile_page_view.dart'; // Import your ProfilePage
+import 'package:glowshoess.id/module/history_page/view/history_page_view.dart';
+import 'package:glowshoess.id/module/payment_page/view/payment_page_view.dart';
+import 'package:glowshoess.id/module/homepage/view/homepage_view.dart';
+import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
+// import 'package:glowshoess.id/module/history_page/view/history_page_view.dart'; // Import your HistoryPage
+// import 'package:glowshoess.id/module/profile_page/view/profile_page_view.dart'; // Import your ProfilePage
 
 class CartPage extends StatefulWidget {
   @override
@@ -22,10 +22,7 @@ class _CartPageState extends State<CartPage> {
     switch (index) {
       case 0:
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomePageView(controller: HomePageController())));
+            context, MaterialPageRoute(builder: (context) => HomePageView()));
         break;
       case 1:
         // Cart is the current page, do nothing
@@ -94,7 +91,7 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Address :\nJl. Begawan, No 2, Tlogomas,\nKec. Lowokwaru, Kota Malang, Jawa Timur',
+                      'Address :\nJl. Bukit Cemara Tidar, Karangbesuki, Kec. Sukun, Kota Malang, Jawa Timur',
                       style: TextStyle(fontSize: 14.0),
                     ),
                   ),

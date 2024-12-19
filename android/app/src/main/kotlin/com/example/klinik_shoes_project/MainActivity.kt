@@ -1,4 +1,4 @@
-package com.example.glowshoess
+package com.example.glowshoess.id
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,22 +1,23 @@
 import 'package:get/get.dart';
-import 'package:glowshoess/module/cart_page/view/cart_page_view.dart';
-import 'package:glowshoess/module/categories_page/view/change_color_view.dart';
-import 'package:glowshoess/module/categories_page/view/deep_cleaning_view.dart';
-import 'package:glowshoess/module/categories_page/view/kids_shoes_view.dart';
-import 'package:glowshoess/module/categories_page/view/leather_cleaning_view.dart';
-import 'package:glowshoess/module/categories_page/view/one_day_order_view.dart';
-import 'package:glowshoess/module/categories_page/view/simple_cleaning_view.dart';
-import 'package:glowshoess/module/categories_page/view/whitening_treatment_view.dart';
-import 'package:glowshoess/module/categories_page/view/woman_shoes_view.dart';
-import 'package:glowshoess/module/history_page/view/history_page_view.dart';
-import 'package:glowshoess/module/login_page/view/login_page_view.dart';
-import 'package:glowshoess/module/profile_page/view/profile_page.dart';
-import 'package:glowshoess/module/signup_page/view/signup_page_view.dart';
-import 'package:glowshoess/module/welcome_page/view/welcome_page_view.dart';
-import 'package:glowshoess/module/homepage/view/homepage_view.dart';
-import 'package:glowshoess/module/homepage/controller/homepage_controller.dart';
-import 'package:glowshoess/module/camerapage/view/camerapage_view.dart'; // Import halaman kamera
-import 'package:glowshoess/module/camerapage/controller/camerapage_controller.dart'; // Import controller kamera jika diperlukan
+import 'package:glowshoess.id/module/cart_page/view/cart_page_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/change_color_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/deep_cleaning_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/kids_shoes_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/leather_cleaning_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/one_day_order_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/simple_cleaning_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/whitening_treatment_view.dart';
+import 'package:glowshoess.id/module/categories_page/view/woman_shoes_view.dart';
+import 'package:glowshoess.id/module/categories_page/binding/simple_cleaning_binding.dart';
+import 'package:glowshoess.id/module/history_page/view/history_page_view.dart';
+import 'package:glowshoess.id/module/login_page/view/login_page_view.dart';
+import 'package:glowshoess.id/module/profile_page/view/profile_view.dart';
+import 'package:glowshoess.id/module/signup_page/view/signup_page_view.dart';
+import 'package:glowshoess.id/module/welcome_page/view/welcome_page_view.dart';
+import 'package:glowshoess.id/module/homepage/view/homepage_view.dart';
+import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
+import 'package:glowshoess.id/module/camerapage/view/camerapage_view.dart'; // Import halaman kamera
+import 'package:glowshoess.id/module/camerapage/controller/camerapage_controller.dart'; // Import controller kamera jika diperlukan
 
 class AppRoutes {
   static const String welcome = '/';
@@ -52,9 +53,11 @@ class AppRoutes {
       name: signup,
     ),
     GetPage(
-      page: () =>
-          HomePageView(controller: HomePageController()), // Perbaikan di sini
+      page: () => HomePageView(),
       name: home,
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => HomePageController());
+      }),
     ),
     GetPage(
       page: () => CameraPageView(),
@@ -64,7 +67,11 @@ class AppRoutes {
       }),
     ),
     GetPage(page: () => CartPage(), name: cart),
-    GetPage(page: () => SimpleCleaningView(), name: simple_cleaning),
+    GetPage(
+      page: () => SimpleCleaningView(),
+      name: simple_cleaning,
+      binding: SimpleCleaningBinding(), // Menambahkan binding di sini
+    ),
     GetPage(page: () => DeepCleaningView(), name: deep_cleaning),
     GetPage(page: () => ChangeColorView(), name: change_color),
     GetPage(page: () => LeatherCleaningView(), name: leather_cleaning),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../controller/settings_controller.dart';
-import 'package:glowshoess/model/speaker/audio_notification_model.dart';
-import 'package:glowshoess/module/welcome_page/view/welcome_page_view.dart';
+import 'package:glowshoess.id/model/speaker/audio_notification_model.dart';
+import 'package:glowshoess.id/module/welcome_page/view/welcome_page_view.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:glowshoess/module/camerapage/controller/camerapage_controller.dart';
+import 'package:glowshoess.id/module/camerapage/controller/camerapage_controller.dart';
 
 class CameraPageBinding extends Bindings {
   @override
