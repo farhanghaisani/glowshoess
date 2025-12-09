@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glowshoess.id/core.dart';
 import 'package:glowshoess.id/module/login_page/controller/login_page_controller.dart';
-// import 'package:glowshoess.id/module/homepage/controller/homepage_controller.dart';
 import 'package:get/get.dart' as getX;
 
 class LoginPageView extends StatelessWidget {
@@ -17,122 +16,54 @@ class LoginPageView extends StatelessWidget {
           _buildBackground(),
           Center(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('asset/glowshoess.id.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
+                  _buildLogo(),
+                  const SizedBox(height: 30),
+
                   _buildTextField(
                     hintText: 'Username or Email',
                     iconPath: 'asset/user.png',
-                    onChanged: (value) => controller.setEmail(value),
+                    onChanged: controller.setEmail,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
+
                   _buildTextField(
                     hintText: 'Password',
                     iconPath: 'asset/lock1.png',
                     obscureText: true,
-                    onChanged: (value) => controller.setPassword(value),
+                    onChanged: controller.setPassword,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
+
                   TextButton(
-                    onPressed: () {
-                      // Forgot password action
-                    },
-                    child: Text(
+                    onPressed: () {},
+                    child: const Text(
                       'Forgot Password?',
                       style: TextStyle(color: Colors.black45),
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Text('- OR Continue with -',
-                      style: TextStyle(color: Colors.black45)),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildSocialButton(
-                        assetPath: 'asset/Google.png',
-                        onTap: () {
-                          print("Login with Google");
-                        },
-                      ),
-                      SizedBox(width: 20),
-                      _buildSocialButton(
-                        assetPath: 'asset/Facebook.png',
-                        onTap: () {
-                          print("Login with Facebook");
-                        },
-                      ),
-                    ],
+
+                  const SizedBox(height: 16),
+                  const Text(
+                    '- OR Continue with -',
+                    style: TextStyle(color: Colors.black45),
                   ),
-                  SizedBox(height: 32),
-                  GestureDetector(
-                    onTap: () async {
-                      User? user = await controller.loginWithEmailPassword();
-                      if (user != null) {
-                        // Navigasi ke homepage jika login berhasil
-                        getX.Get.offAll(() =>
-                            HomePageView()); // Menghapus semua halaman sebelumnya dan menuju ke Homepage
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Login successful!')),
-                        );
-                      } else {
-                        // Jika login gagal
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Login failed!')),
-                        );
-                      }
-                    },
-                    child: Container(
-                      // Kontainer Tombol Login
-                      width: 350,
-                      height: 50,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 109, vertical: 5),
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 5, color: Color(0xFFBEF2EE)),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x7F000000),
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Sora',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
+
+                  _buildSocialRow(),
+                  const SizedBox(height: 32),
+
+                  _buildLoginButton(context),
+                  const SizedBox(height: 16),
+
                   TextButton(
                     onPressed: () {
                       getX.Get.toNamed('/signup');
                     },
-                    child: Text('Don’t have an account? Sign up here'),
+                    child: const Text('Don’t have an account? Sign up here'),
                   ),
                 ],
               ),
@@ -143,42 +74,75 @@ class LoginPageView extends StatelessWidget {
     );
   }
 
-  // Function to create text field with PNG icons
+  // LOGO
+  Widget _buildLogo() {
+    return Container(
+      width: 300,
+      height: 300,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('asset/glowshoess.id.png'),
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
+  // TEXT FIELD
   Widget _buildTextField({
     required String hintText,
     required String iconPath,
-    bool obscureText = false,
     required ValueChanged<String> onChanged,
+    bool obscureText = false,
   }) {
     return TextField(
       obscureText: obscureText,
       onChanged: onChanged,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.transparent, // Transparent background
+        fillColor: Colors.transparent,
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.black54), // Hint text color
+        hintStyle: const TextStyle(color: Colors.black54),
         prefixIcon: Padding(
-          padding: const EdgeInsets.all(12.0), // Padding around the icon
+          padding: const EdgeInsets.all(12.0),
           child: Image.asset(
-            iconPath, // Use PNG image as icon
-            width: 24, // Width of the image
-            height: 24, // Height of the image
+            iconPath,
+            width: 24,
+            height: 24,
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8), // Rounded corners
-          borderSide: BorderSide(color: Colors.black), // Border color
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.black),
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 20), // Vertical padding
+        contentPadding: const EdgeInsets.symmetric(vertical: 20),
       ),
-      style: TextStyle(color: Colors.black), // Input text color
+      style: const TextStyle(color: Colors.black),
     );
   }
 
-  // Function to create social login buttons
-  Widget _buildSocialButton(
-      {required String assetPath, required VoidCallback onTap}) {
+  // SOCIAL LOGINS
+  Widget _buildSocialRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildSocialButton(
+          assetPath: 'asset/Google.png',
+          onTap: () => print("Login with Google"),
+        ),
+        const SizedBox(width: 20),
+        _buildSocialButton(
+          assetPath: 'asset/Facebook.png',
+          onTap: () => print("Login with Facebook"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialButton({
+    required String assetPath,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -195,105 +159,121 @@ class LoginPageView extends StatelessWidget {
     );
   }
 
-  // Function to create background with decorative circles
+  // LOGIN BUTTON
+  Widget _buildLoginButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        User? user = await controller.loginWithEmailPassword();
+
+        if (user != null) {
+          getX.Get.offAll(() => HomePageView());
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login successful!')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login failed!')),
+          );
+        }
+      },
+      child: Container(
+        width: 350,
+        height: 50,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 5, color: Color(0xFFBEF2EE)),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x7F000000),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Text(
+            'Login',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontFamily: 'Sora',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // BACKGROUND DECORATION
   Widget _buildBackground() {
     return Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(234, 251, 249, 1), // Background color
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(234, 251, 249, 1),
       ),
       child: Stack(
         children: [
-          // Decorative circle in the top left
           Positioned(
             top: -9,
             left: -78,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: ShapeDecoration(
-                color: Color(0xFF29D6C8),
-                shape: OvalBorder(),
-              ),
-            ),
+            child: _circle(300, 300, const Color(0xFF29D6C8)),
           ),
           Positioned(
             top: 34,
             left: -41,
-            child: Container(
-              width: 140,
-              height: 140,
-              decoration: ShapeDecoration(
-                shape: OvalBorder(
-                  side: BorderSide(
-                    width: 5,
-                    strokeAlign: BorderSide.strokeAlignOutside,
-                    color: Color(0xFF7EE6DE),
-                  ),
-                ),
-              ),
-            ),
+            child: _borderCircle(140, 140, const Color(0xFF7EE6DE)),
           ),
-          // Decorative circle in the bottom left
           Positioned(
             top: 216,
             left: 67,
-            child: Container(
-              width: 432,
-              height: 432,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFF29D6C8),
-              ),
-            ),
+            child: _circle(432, 432, const Color(0xFF29D6C8)),
           ),
           Positioned(
             top: 291,
             left: 283,
-            child: Container(
-              width: 150,
-              height: 150,
-              decoration: ShapeDecoration(
-                shape: OvalBorder(
-                  side: BorderSide(
-                    width: 5,
-                    strokeAlign: BorderSide.strokeAlignOutside,
-                    color: Color(0xFFA9EEE9),
-                  ),
-                ),
-              ),
-            ),
+            child: _borderCircle(150, 150, const Color(0xFFA9EEE9)),
           ),
-          // Decorative circle in the bottom right
           Positioned(
             top: 561,
             left: -97,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: ShapeDecoration(
-                color: Color(0xFF29D6C8),
-                shape: OvalBorder(),
-              ),
-            ),
+            child: _circle(300, 300, const Color(0xFF29D6C8)),
           ),
           Positioned(
             top: 503,
             left: -8,
-            child: Container(
-              width: 230,
-              height: 228,
-              decoration: ShapeDecoration(
-                shape: OvalBorder(
-                  side: BorderSide(
-                    width: 5,
-                    strokeAlign: BorderSide.strokeAlignOutside,
-                    color: Color(0xFF7EE6DE),
-                  ),
-                ),
-              ),
-            ),
-          )
+            child: _borderCircle(230, 228, const Color(0xFF7EE6DE)),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _circle(double w, double h, Color color) {
+    return Container(
+      width: w,
+      height: h,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+      ),
+    );
+  }
+
+  Widget _borderCircle(double w, double h, Color color) {
+    return Container(
+      width: w,
+      height: h,
+      decoration: ShapeDecoration(
+        shape: OvalBorder(
+          side: BorderSide(
+            width: 5,
+            strokeAlign: BorderSide.strokeAlignOutside,
+            color: color,
+          ),
+        ),
       ),
     );
   }
